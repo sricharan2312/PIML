@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Physics Model Engine - Step 3</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "on-secondary-container": "#48647d",
+                "tertiary": "#854a00",
+                "inverse-primary": "#93ccff",
+                "on-secondary-fixed": "#001d32",
+                "primary-container": "#0077b5",
+                "on-tertiary-fixed": "#2d1600",
+                "surface": "#f7fafc",
+                "surface-dim": "#d7dadc",
+                "surface-container-lowest": "#ffffff",
+                "surface-tint": "#006398",
+                "secondary-fixed": "#cde5ff",
+                "primary-fixed-dim": "#93ccff",
+                "inverse-on-surface": "#eef1f3",
+                "secondary": "#45617a",
+                "inverse-surface": "#2d3133",
+                "background": "#f7fafc",
+                "on-primary-fixed-variant": "#004b74",
+                "primary-fixed": "#cde5ff",
+                "secondary-container": "#c3e0fe",
+                "on-secondary-fixed-variant": "#2d4961",
+                "error-container": "#ffdad6",
+                "on-secondary": "#ffffff",
+                "on-surface": "#181c1e",
+                "tertiary-fixed": "#ffdcc0",
+                "on-surface-variant": "#404850",
+                "on-tertiary-container": "#fff5ef",
+                "on-primary": "#ffffff",
+                "on-background": "#181c1e",
+                "surface-container": "#ebeef0",
+                "outline": "#707881",
+                "surface-bright": "#f7fafc",
+                "outline-variant": "#bfc7d1",
+                "on-error-container": "#93000a",
+                "on-primary-container": "#f3f7ff",
+                "surface-container-high": "#e5e9eb",
+                "tertiary-container": "#a85f00",
+                "on-tertiary-fixed-variant": "#6b3b00",
+                "on-error": "#ffffff",
+                "surface-container-low": "#f1f4f6",
+                "primary": "#005d8f",
+                "secondary-fixed-dim": "#adcae7",
+                "surface-container-highest": "#e0e3e5",
+                "tertiary-fixed-dim": "#ffb876",
+                "on-tertiary": "#ffffff",
+                "error": "#ba1a1a",
+                "on-primary-fixed": "#001d32",
+                "surface-variant": "#e0e3e5"
+            },
+            "fontFamily": {
+                "headline": ["Manrope"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+            }
+          }
+        }
+      }
+</script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .headline-lg { font-size: 2rem; line-height: 2.5rem; font-weight: 800; }
+      .body-md { font-size: 0.875rem; line-height: 1.25rem; }
+      .label-md { font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; }
+      .label-sm { font-size: 0.75rem; line-height: 1rem; font-weight: 500; }
+      .title-sm { font-size: 0.875rem; line-height: 1.25rem; font-weight: 600; }
+</style>
+</head>
+<body class="bg-surface text-on-surface font-body min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky bg-[#f1f4f6] dark:bg-slate-800 z-50">
+<div class="flex justify-between items-center w-full px-8 py-4 max-w-full">
+<div class="flex items-center gap-4">
+<span class="text-xl font-bold font-headline text-[#005d8f] dark:text-[#0077b5]">Physics-Informed Machine Learning for Predicting the Electrochemical Performance of Zn/Co-Doped BiFeO3 Electrodes
+</span>
+</div>
+<div class="flex items-center gap-6">
+<!-- Settings and profile removed -->
+</div>
+</div>
+</header>
+<main class="flex-grow max-w-4xl mx-auto w-full px-6 pt-12 pb-32">
+<!-- Progress Section -->
+<div class="mb-12 w-full">
+<div class="flex justify-between items-end mb-3">
+<h1 class="font-headline text-3xl font-extrabold tracking-tight text-[#181c1e]">Doping Concentration</h1>
+<span class="font-label text-sm font-semibold text-on-surface-variant">Step 3 of 8</span>
+</div>
+<div class="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div id="progress-bar" class="h-full bg-gradient-to-r from-primary to-primary-container transition-all duration-1000 ease-out" style="width: 0%;"></div>
+<script>setTimeout(() => { document.getElementById('progress-bar').style.width = '37.5%'; }, 50);</script>
+</div>
+</div>
+<!-- Content Canvas -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+<!-- Main Interaction Card -->
+<div class="md:col-span-8 bg-surface-container-lowest rounded-xl p-10 shadow-[0_4px_20px_-4px_rgba(24,28,30,0.04)]">
+<div class="mb-10">
+<h2 class="font-headline text-xl font-bold mb-2">Configure Concentration Levels</h2>
+<p class="text-on-surface-variant text-sm leading-relaxed">Define the precise substitution ratio of Zinc to Cobalt within the B-site of the perovskite lattice. This specific stoichiometric balance determines the density of redox-active sites and overall pseudocapacitive performance.</p>
+</div>
+<!-- Specialized Slider -->
+<div class="space-y-12">
+<div class="group">
+<div class="flex justify-between items-center mb-6">
+<label class="font-label text-sm font-bold tracking-wide uppercase text-on-surface-variant">Zinc/Cobalt Molar Ratio</label>
+<div class="flex items-center gap-2 bg-surface-container-low px-4 py-2 rounded-lg border border-outline-variant/30">
+<span id="ratio-display" class="font-headline font-bold text-primary">0.42</span>
+<span class="text-xs font-semibold text-on-surface-variant">ratio</span>
+</div>
+</div>
+<div class="relative py-4">
+<input id="ratio-slider" class="w-full h-1.5 bg-surface-container-high rounded-lg appearance-none cursor-pointer accent-primary" max="1" min="0" step="0.01" type="range" value="0.42"/>
+<div class="flex justify-between mt-4 px-1">
+<span class="text-[10px] font-bold text-outline">0.0</span>
+<span class="text-[10px] font-bold text-outline">0.5</span>
+<span class="text-[10px] font-bold text-outline">1.0</span>
+</div>
+</div>
+</div>
+<!-- Fine Control Inputs -->
+<div class="grid grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="block font-label text-xs font-semibold text-on-surface-variant">Stoichiometry Adjustment</label>
+<div class="relative">
+<input id="ratio-input" class="w-full bg-surface-container-lowest border-b-2 border-surface-container-highest focus:border-primary px-0 py-3 font-headline font-bold text-lg outline-none transition-colors" type="number" step="0.01" min="0" max="1" value="0.42"/>
+<span class="absolute right-0 bottom-3 text-xs text-outline font-semibold">x/y</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Contextual Insight Panel (Bento Style) -->
+<div class="md:col-span-4 space-y-6">
+<div class="bg-primary text-on-primary p-6 rounded-xl relative overflow-hidden">
+<div class="relative z-10">
+<span class="material-symbols-outlined mb-4 opacity-80" data-icon="info">info</span>
+<h3 class="font-headline font-bold mb-2">Optimization Tip</h3>
+<p class="text-xs opacity-90 leading-relaxed">Concentrations above 0.75 mol/L may require additional thermal variance compensation steps in the next phase.</p>
+</div>
+<div class="absolute -right-4 -bottom-4 w-24 h-24 bg-white/10 rounded-full blur-2xl"></div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl">
+<h3 class="font-headline font-bold text-sm mb-4">Reference Standards</h3>
+<div class="space-y-4">
+<div class="flex items-center gap-3 cursor-pointer hover:opacity-80" id="preset-a">
+<div class="w-2 h-2 rounded-full bg-tertiary"></div>
+<div>
+<div class="text-[10px] uppercase font-bold text-on-surface-variant">Standard A</div>
+<div class="text-xs font-semibold">0.35 mol/L</div>
+</div>
+</div>
+<div class="flex items-center gap-3 cursor-pointer hover:opacity-80" id="preset-b">
+<div class="w-2 h-2 rounded-full bg-primary-container"></div>
+<div>
+<div class="text-[10px] uppercase font-bold text-on-surface-variant">Industrial Grade</div>
+<div class="text-xs font-semibold">0.50 mol/L</div>
+</div>
+</div>
+</div>
+</div>
+<div class="rounded-xl overflow-hidden grayscale contrast-125 opacity-40 hover:opacity-100 transition-opacity">
+<img alt="Microscopic view" class="w-full h-32 object-cover" data-alt="Microscopic texture of metallic crystalline structure with sharp edges and cool blue lighting tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-TYslf5ellFoYEwa1lg2yh_WUbNtAmfjn71nR9KInYKTYQwggnEdVyfKF4zq-haOPvPKwELV2ntfsARVHApiGtl8UUX4a7m43i3bCao0shE_XUaIebv8TKo03K9hGgZvh8jR1cyBtdB9EvY0-e2UbTUqa1NSRwXqdqRdNlCc6W3N0q-ZJtNAaggO7d01cHQN_LTqunMJVcx3nOnAI430skBEVa2z9ltWiLE2vZL_pQjTTmPTgysFp6AUz5v4aICumwGvZ3kA9gjZX"/>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex justify-between items-center px-12 py-4 bg-white/90 backdrop-blur-md border-t border-surface-container-highest">
+<button onclick="window.location.href='step2.html'" class="flex items-center gap-2 text-[#005d8f] font-inter text-sm font-semibold hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+<span>Back</span>
+</button>
+<div class="flex items-center gap-6">
+<button onclick="submitStepDataAndContinue('step4.html')" class="flex items-center gap-2 bg-[#0077b5] text-white rounded-full px-6 py-2.5 font-inter text-sm font-semibold hover:bg-[#005d8f] transition-colors shadow-sm">
+<span>Next</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</footer>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const ratioSlider = document.getElementById('ratio-slider');
+        const ratioInput = document.getElementById('ratio-input');
+        const ratioDisplay = document.getElementById('ratio-display');
+        const presetA = document.getElementById('preset-a');
+        const presetB = document.getElementById('preset-b');
+
+        function updateRatio(val) {
+            const num = parseFloat(val);
+            if (isNaN(num)) return;
+            const formatted = num.toFixed(2);
+            ratioSlider.value = formatted;
+            ratioInput.value = formatted;
+            ratioDisplay.textContent = formatted;
+        }
+
+        ratioSlider.addEventListener('input', (e) => updateRatio(e.target.value));
+        ratioInput.addEventListener('input', (e) => updateRatio(e.target.value));
+        presetA.addEventListener('click', () => updateRatio(0.35));
+        presetB.addEventListener('click', () => updateRatio(0.50));
+        
+        updateRatio(ratioSlider.value);
+    });
+</script>
+<script>
+    async function submitStepDataAndContinue(nextPage) {
+        // Collect all inputs on the current page
+        const inputs = document.querySelectorAll('input, select');
+        const data = {};
+        inputs.forEach(input => {
+            data[input.id || input.name] = input.type === 'checkbox' ? input.checked : input.value;
+        });
+
+        const btn = document.querySelector('button[onclick^="submitStepData"]');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<span>Saving...</span>';
+        btn.disabled = true;
+
+        try {
+            const response = await fetch('/api/save_step', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ page: window.location.pathname, data: data })
+            });
+
+            if (response.ok) {
+                window.location.href = '/' + nextPage.replace('.html', '');
+            } else {
+                throw new Error('Failed to save');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Failed to connect to the backend server.');
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
+    }
+</script>
+</body></html>
+        });
+        document.getElementById('preset-b').addEventListener('click', () => {
+            updateValues(0.50);
+        });
+    });
+</script>
+<script>
+    async function submitStepDataAndContinue(nextPage) {
+        // Collect all inputs on the current page
+        const inputs = document.querySelectorAll('input, select');
+        const data = {};
+        inputs.forEach(input => {
+            data[input.id || input.name] = input.type === 'checkbox' ? input.checked : input.value;
+        });
+
+        const btn = document.querySelector('button[onclick^="submitStepData"]');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<span>Saving...</span>';
+        btn.disabled = true;
+
+        try {
+            const response = await fetch('/api/save_step', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ page: window.location.pathname, data: data })
+            });
+
+            if (response.ok) {
+                window.location.href = '/' + nextPage.replace('.html', '');
+            } else {
+                throw new Error('Failed to save');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Failed to connect to the backend server.');
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
+    }
+</script>
+</body>
+</html>
+

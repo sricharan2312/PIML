@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Physics Model Engine - Step 2</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "on-secondary-container": "#48647d",
+                "tertiary": "#854a00",
+                "inverse-primary": "#93ccff",
+                "on-secondary-fixed": "#001d32",
+                "primary-container": "#0077b5",
+                "on-tertiary-fixed": "#2d1600",
+                "surface": "#f7fafc",
+                "surface-dim": "#d7dadc",
+                "surface-container-lowest": "#ffffff",
+                "surface-tint": "#006398",
+                "secondary-fixed": "#cde5ff",
+                "primary-fixed-dim": "#93ccff",
+                "inverse-on-surface": "#eef1f3",
+                "secondary": "#45617a",
+                "inverse-surface": "#2d3133",
+                "background": "#f7fafc",
+                "on-primary-fixed-variant": "#004b74",
+                "primary-fixed": "#cde5ff",
+                "secondary-container": "#c3e0fe",
+                "on-secondary-fixed-variant": "#2d4961",
+                "error-container": "#ffdad6",
+                "on-secondary": "#ffffff",
+                "on-surface": "#181c1e",
+                "tertiary-fixed": "#ffdcc0",
+                "on-surface-variant": "#404850",
+                "on-tertiary-container": "#fff5ef",
+                "on-primary": "#ffffff",
+                "on-background": "#181c1e",
+                "surface-container": "#ebeef0",
+                "outline": "#707881",
+                "surface-bright": "#f7fafc",
+                "outline-variant": "#bfc7d1",
+                "on-error-container": "#93000a",
+                "on-primary-container": "#f3f7ff",
+                "surface-container-high": "#e5e9eb",
+                "tertiary-container": "#a85f00",
+                "on-tertiary-fixed-variant": "#6b3b00",
+                "on-error": "#ffffff",
+                "surface-container-low": "#f1f4f6",
+                "primary": "#005d8f",
+                "secondary-fixed-dim": "#adcae7",
+                "surface-container-highest": "#e0e3e5",
+                "tertiary-fixed-dim": "#ffb876",
+                "on-tertiary": "#ffffff",
+                "error": "#ba1a1a",
+                "on-primary-fixed": "#001d32",
+                "surface-variant": "#e0e3e5"
+            },
+            "fontFamily": {
+                "headline": ["Manrope"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+            }
+          }
+        }
+      }
+</script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .headline-lg { font-size: 2rem; line-height: 2.5rem; font-weight: 800; }
+      .body-md { font-size: 0.875rem; line-height: 1.25rem; }
+      .label-md { font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; }
+      .label-sm { font-size: 0.75rem; line-height: 1rem; font-weight: 500; }
+      .title-sm { font-size: 0.875rem; line-height: 1.25rem; font-weight: 600; }
+</style>
+</head>
+<body class="bg-surface text-on-surface font-body min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky bg-[#f1f4f6] dark:bg-slate-800 z-50">
+<div class="flex justify-between items-center w-full px-8 py-4 max-w-full">
+<div class="flex items-center gap-4">
+<span class="text-xl font-bold font-headline text-[#005d8f] dark:text-[#0077b5]">Physics-Informed Machine Learning for Predicting the Electrochemical Performance of Zn/Co-Doped BiFeO3 Electrodes
+</span>
+</div>
+<div class="flex items-center gap-6">
+<!-- Settings and profile removed -->
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-grow flex flex-col items-center justify-start pt-12 px-6 pb-32">
+<div class="w-full max-w-3xl">
+<!-- Progress Section -->
+<div class="mb-12 w-full">
+<div class="flex justify-between items-end mb-3">
+<h1 class="font-headline text-3xl font-extrabold tracking-tight text-[#181c1e]">Oxidation State</h1>
+<span class="font-label text-sm font-semibold text-on-surface-variant">Step 2 of 8</span>
+</div>
+<div class="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div id="progress-bar" class="h-full bg-gradient-to-r from-primary to-primary-container transition-all duration-1000 ease-out" style="width: 0%;"></div>
+<script>setTimeout(() => { document.getElementById('progress-bar').style.width = '25%'; }, 50);</script>
+</div>
+</div>
+<!-- Configuration Card -->
+<div class="bg-surface-container-low rounded-xl p-8 lg:p-12 space-y-10">
+<!-- Hero Illustration / Context -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+<div class="space-y-4">
+<h2 class="font-headline headline-lg text-on-surface tracking-tight">Material Oxidation State</h2>
+<p class="text-on-surface-variant body-md leading-relaxed">The oxidation state is critical as it dictates the concentration of active redox species (Zn²⁺/Co³⁺) on the BFO surface, directly influencing the peak current intensity and the thermodynamic stability of the material during charge-discharge cycles.</p>
+</div>
+<div class="relative aspect-video rounded-lg overflow-hidden bg-surface-container-lowest shadow-sm">
+<img class="w-full h-full object-cover" data-alt="abstract close up of oxidized metal texture with copper and blue patina in professional studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuByq3DWMXYQ9AAVsYG7JkODAZblLl9bWW04oSXctXbvV0JgGRg1eTXDcSdFtm_w4PT3woQ0fwLzMi1YSpCPX2wI7gGAu5DZByqNBnL9q0tcaHstT4PlD_XdSNmJXxqplLrJJaDv7TashcLd0ZUryedr0XqSSvTvZXrCxyQUhV-wH4YcMo22dJ0PIu2UFipkQWW21nZAokV_RGMjvHWExQJTNf6fEPxn2qplBqQDACkX3Ip5n98Nl0VWkjFGZR3N5Jxh1diJdvlrzhfg"/>
+<div class="absolute inset-0 bg-primary/10 mix-blend-multiply"></div>
+</div>
+</div>
+<!-- Toggle Section -->
+<div class="bg-surface-container-lowest p-6 rounded-lg border border-outline-variant/20 flex items-center justify-between">
+<div class="flex gap-4 items-center">
+<div class="w-12 h-12 rounded-full bg-primary/5 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">component_exchange</span>
+</div>
+<div>
+<p class="font-headline font-bold text-on-surface">Enable Anodic Sweep Calculation</p>
+<p class="text-on-surface-variant text-sm">Include the oxidation current contribution in the physics-informed prediction loop.</p>
+</div>
+</div>
+<!-- Professional Toggle Button -->
+<button id="oxidation-toggle" class="relative inline-flex h-7 w-12 items-center rounded-full bg-surface-container-highest transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer">
+<span id="oxidation-thumb" class="translate-x-1 inline-block h-5 w-5 transform rounded-full bg-white transition-transform"></span>
+</button>
+</div>
+<!-- Secondary Parameters (Asymmetric Layout) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="md:col-span-2 bg-surface-container-lowest/50 p-6 rounded-lg">
+<label class="label-md text-on-surface-variant block mb-2">Initial Oxidation Fraction (0-1)</label>
+<!-- Updated to act like a slider via text input for now, since no direct slider bar is here -->
+<input id="factor-input" class="w-full bg-surface-container-lowest border-0 border-b-2 border-surface-container-highest focus:border-primary focus:ring-0 transition-colors py-2 text-on-surface font-mono" placeholder="0.00" type="number" step="0.01" min="0" max="1"/>
+</div>
+<div class="bg-surface-container-lowest/50 p-6 rounded-lg flex flex-col justify-center gap-2">
+<p class="text-[10px] uppercase font-bold text-outline tracking-tight text-center">Oxidation Dynamics</p>
+<p class="font-headline font-bold text-lg text-primary text-center">Redox Potential</p>
+<p class="text-[9px] text-on-surface-variant text-center italic">Zn²⁺/Co³⁺ Surface Stability</p>
+</div>
+</div>
+</div>
+</div>
+<footer class="fixed bottom-0 left-0 w-full z-50 flex justify-between items-center px-12 py-4 bg-white/90 backdrop-blur-md border-t border-surface-container-highest">
+<button onclick="window.location.href='index.html'" class="flex items-center gap-2 text-[#005d8f] font-inter text-sm font-semibold hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+<span>Back</span>
+</button>
+<div class="flex items-center gap-6">
+<button onclick="submitStepDataAndContinue('step3.html')" class="flex items-center gap-2 bg-[#0077b5] text-white rounded-full px-6 py-2.5 font-inter text-sm font-semibold hover:bg-[#005d8f] transition-colors shadow-sm">
+<span>Next</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Toggle Logic
+        const toggleBtn = document.getElementById('oxidation-toggle');
+        const toggleThumb = document.getElementById('oxidation-thumb');
+        let isEnabled = false;
+
+        toggleBtn.addEventListener('click', () => {
+            isEnabled = !isEnabled;
+            if(isEnabled) {
+                toggleBtn.classList.remove('bg-surface-container-highest');
+                toggleBtn.classList.add('bg-primary-container');
+                toggleThumb.classList.remove('translate-x-1');
+                toggleThumb.classList.add('translate-x-6');
+            } else {
+                toggleBtn.classList.remove('bg-primary-container');
+                toggleBtn.classList.add('bg-surface-container-highest');
+                toggleThumb.classList.remove('translate-x-6');
+                toggleThumb.classList.add('translate-x-1');
+            }
+        });
+    });
+</script>
+<script>
+    async function submitStepDataAndContinue(nextPage) {
+        // Collect all inputs on the current page
+        const inputs = document.querySelectorAll('input, select');
+        const data = {};
+        inputs.forEach(input => {
+            data[input.id || input.name] = input.type === 'checkbox' ? input.checked : input.value;
+        });
+
+        const btn = document.querySelector('button[onclick^="submitStepData"]');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<span>Saving...</span>';
+        btn.disabled = true;
+
+        try {
+            const response = await fetch('/api/save_step', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ page: window.location.pathname, data: data })
+            });
+
+            if (response.ok) {
+                window.location.href = '/' + nextPage.replace('.html', '');
+            } else {
+                throw new Error('Failed to save');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Failed to connect to the backend server.');
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
+    }
+</script>
+</body></html>
+

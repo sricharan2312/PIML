@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Physics Model Engine - Step 7</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "on-secondary-container": "#48647d",
+                "tertiary": "#854a00",
+                "inverse-primary": "#93ccff",
+                "on-secondary-fixed": "#001d32",
+                "primary-container": "#0077b5",
+                "on-tertiary-fixed": "#2d1600",
+                "surface": "#f7fafc",
+                "surface-dim": "#d7dadc",
+                "surface-container-lowest": "#ffffff",
+                "surface-tint": "#006398",
+                "secondary-fixed": "#cde5ff",
+                "primary-fixed-dim": "#93ccff",
+                "inverse-on-surface": "#eef1f3",
+                "secondary": "#45617a",
+                "inverse-surface": "#2d3133",
+                "background": "#f7fafc",
+                "on-primary-fixed-variant": "#004b74",
+                "primary-fixed": "#cde5ff",
+                "secondary-container": "#c3e0fe",
+                "on-secondary-fixed-variant": "#2d4961",
+                "error-container": "#ffdad6",
+                "on-secondary": "#ffffff",
+                "on-surface": "#181c1e",
+                "tertiary-fixed": "#ffdcc0",
+                "on-surface-variant": "#404850",
+                "on-tertiary-container": "#fff5ef",
+                "on-primary": "#ffffff",
+                "on-background": "#181c1e",
+                "surface-container": "#ebeef0",
+                "outline": "#707881",
+                "surface-bright": "#f7fafc",
+                "outline-variant": "#bfc7d1",
+                "on-error-container": "#93000a",
+                "on-primary-container": "#f3f7ff",
+                "surface-container-high": "#e5e9eb",
+                "tertiary-container": "#a85f00",
+                "on-tertiary-fixed-variant": "#6b3b00",
+                "on-error": "#ffffff",
+                "surface-container-low": "#f1f4f6",
+                "primary": "#005d8f",
+                "secondary-fixed-dim": "#adcae7",
+                "surface-container-highest": "#e0e3e5",
+                "tertiary-fixed-dim": "#ffb876",
+                "on-tertiary": "#ffffff",
+                "error": "#ba1a1a",
+                "on-primary-fixed": "#001d32",
+                "surface-variant": "#e0e3e5"
+            },
+            "fontFamily": {
+                "headline": ["Manrope"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+            }
+          }
+        }
+      }
+</script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .headline-lg { font-size: 2rem; line-height: 2.5rem; font-weight: 800; }
+      .body-md { font-size: 0.875rem; line-height: 1.25rem; }
+      .label-md { font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; }
+      .label-sm { font-size: 0.75rem; line-height: 1rem; font-weight: 500; }
+      .title-sm { font-size: 0.875rem; line-height: 1.25rem; font-weight: 600; }
+</style>
+</head>
+<body class="bg-surface text-on-surface font-body min-h-screen flex flex-col">
+<!-- Top Navigation Anchor -->
+<header class="w-full top-0 sticky bg-[#f1f4f6] dark:bg-slate-800 z-50">
+<div class="flex justify-between items-center w-full px-8 py-4 max-w-full">
+<div class="flex items-center gap-4">
+<span class="text-xl font-bold font-headline text-[#005d8f] dark:text-[#0077b5]">Physics-Informed Machine Learning for Predicting the Electrochemical Performance of Zn/Co-Doped BiFeO3 Electrodes
+</span>
+</div>
+<div class="flex items-center gap-6">
+<!-- Settings and profile removed -->
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="max-w-7xl mx-auto px-8 pt-12 pb-32">
+<!-- Header Section -->
+<div class="mb-12 w-full">
+<div class="flex justify-between items-end mb-3">
+<h1 class="font-headline text-3xl font-extrabold tracking-tight text-[#181c1e]">Electrochemical Environment</h1>
+<span class="font-label text-sm font-semibold text-on-surface-variant">Step 7 of 8</span>
+</div>
+<div class="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div id="progress-bar" class="h-full bg-gradient-to-r from-primary to-primary-container transition-all duration-1000 ease-out" style="width: 0%;"></div>
+<script>setTimeout(() => { document.getElementById('progress-bar').style.width = '87.5%'; }, 50);</script>
+</div>
+</div>
+<div class="grid grid-cols-12 gap-8">
+<!-- Asymmetric Layout: Primary Interaction -->
+<div class="col-span-12 lg:col-span-8">
+<section class="bg-surface-container-lowest rounded-xl p-10 border border-outline-variant/10 shadow-sm">
+<p class="text-on-surface-variant mb-12 max-w-2xl leading-relaxed">Adjust the experimental temperature for the electrochemical cell. Temperature influences ionic conductivity, formal potential (via the Nernst equation), and reaction kinetics (Butler-Volmer relationship).</p>
+<!-- Professional Slider Component -->
+<div class="space-y-12">
+<div class="relative py-4">
+<div class="flex justify-between items-end mb-6">
+<div>
+<label class="font-label text-sm font-semibold text-on-surface-variant block mb-1">Temperature Setting</label>
+<div class="flex items-baseline gap-2">
+<span class="text-4xl font-headline font-extrabold text-primary" id="temp-display">298.15</span>
+<span class="text-xl font-label font-medium text-on-surface-variant">K</span>
+</div>
+</div>
+<div class="text-right">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-tertiary/10 text-tertiary text-xs font-bold" id="temp-status">
+<span class="material-symbols-outlined text-sm mr-1">thermostat</span>
+                                        AMBIENT
+                                    </span>
+</div>
+</div>
+<div class="relative h-12 flex items-center">
+<!-- Track Background -->
+<div class="absolute w-full h-3 bg-surface-container rounded-full"></div>
+<!-- Active Progress Track -->
+<div class="absolute h-3 bg-gradient-to-r from-primary to-primary-container rounded-full shadow-[0_0_12px_rgba(0,93,143,0.2)]" id="temp-track" style="width: 29.815%;"></div>
+<!-- Range Input Overlay -->
+<input class="absolute w-full h-3 appearance-none bg-transparent slider-thumb cursor-pointer z-10" id="temp-slider" max="1000" min="0" step="0.01" type="range" value="298.15"/>
+</div>
+<div class="flex justify-between mt-4">
+<div class="text-center">
+<span class="block text-[10px] font-bold text-outline-variant tracking-wider cursor-pointer hover:text-primary" onclick="document.getElementById('temp-slider').value=0; document.getElementById('temp-slider').dispatchEvent(new Event('input'))">ABSOLUTE ZERO</span>
+<span class="text-xs font-semibold text-on-surface-variant">0 K</span>
+</div>
+<div class="text-center">
+<span class="block text-[10px] font-bold text-outline-variant tracking-wider cursor-pointer hover:text-primary" onclick="document.getElementById('temp-slider').value=273.15; document.getElementById('temp-slider').dispatchEvent(new Event('input'))">STANDARD</span>
+<span class="text-xs font-semibold text-on-surface-variant">273.15 K</span>
+</div>
+<div class="text-center">
+<span class="block text-[10px] font-bold text-outline-variant tracking-wider cursor-pointer hover:text-primary" onclick="document.getElementById('temp-slider').value=373.15; document.getElementById('temp-slider').dispatchEvent(new Event('input'))">BOILING</span>
+<span class="text-xs font-semibold text-on-surface-variant">373.15 K</span>
+</div>
+<div class="text-center">
+<span class="block text-[10px] font-bold text-outline-variant tracking-wider cursor-pointer hover:text-primary" onclick="document.getElementById('temp-slider').value=1000; document.getElementById('temp-slider').dispatchEvent(new Event('input'))">MAX THERMAL</span>
+<span class="text-xs font-semibold text-on-surface-variant">1000 K</span>
+</div>
+</div>
+</div>
+<!-- Info Bento Grid -->
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-low p-6 rounded-lg border border-outline-variant/10">
+<span class="material-symbols-outlined text-primary mb-3">auto_awesome</span>
+<h3 class="font-headline font-bold text-sm mb-2">Reaction Rate Increase</h3>
+<p class="text-xs text-on-surface-variant leading-relaxed">Increasing temperature speeds up the electrochemical reactions, leading to higher peak currents and improved battery performance.</p>
+</div>
+<div class="bg-surface-container-low p-6 rounded-lg border border-outline-variant/10">
+<span class="material-symbols-outlined text-tertiary mb-3">warning</span>
+<h3 class="font-headline font-bold text-sm mb-2">Experimental Limits</h3>
+<p class="text-xs text-on-surface-variant leading-relaxed">Temperatures above 373K may exceed aqueous electrolyte boiling points.</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Contextual Sidebar / Info Panel -->
+<div class="col-span-12 lg:col-span-4 space-y-6">
+<div class="bg-surface-container-low rounded-xl p-8 border border-outline-variant/10 h-full relative overflow-hidden">
+<h2 class="font-headline text-xl font-bold mb-6">Parameter Insight</h2>
+<div class="aspect-square rounded-lg bg-surface-container-highest flex flex-col items-center justify-center p-8 text-center border-2 border-dashed border-outline-variant/30 relative">
+<span class="material-symbols-outlined text-6xl text-primary mb-4">device_thermostat</span>
+<h3 class="font-headline font-bold text-lg text-on-surface mb-2">Temperature Effects</h3>
+<p class="text-sm text-on-surface-variant relative z-10">
+The selected temperature dictates the Nernstian shift. As temperature increases, the separation between oxidation and reduction peaks widens, directly altering the simulated CV curve.
+</p>
+<div class="absolute inset-0 opacity-5 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary to-transparent pointer-events-none"></div>
+</div>
+<div class="mt-8 space-y-4">
+<div class="flex items-center gap-4 group cursor-pointer p-2 -mx-2 hover:bg-surface-container-high rounded-lg transition-colors" onclick="document.getElementById('temp-slider').value=288.15; document.getElementById('temp-slider').dispatchEvent(new Event('input'))">
+<div class="w-10 h-10 rounded bg-white flex items-center justify-center border border-outline-variant/20 shadow-sm">
+<span class="material-symbols-outlined text-on-surface-variant">science</span>
+</div>
+<div>
+<h4 class="text-xs font-bold">Standard Lab</h4>
+<p class="text-[10px] text-on-surface-variant">Standard RTP (25°C)</p>
+</div>
+</div>
+<div class="flex items-center gap-4 group cursor-pointer p-2 -mx-2 hover:bg-surface-container-high rounded-lg transition-colors" onclick="document.getElementById('temp-slider').value=273.15; document.getElementById('temp-slider').dispatchEvent(new Event('input'))">
+<div class="w-10 h-10 rounded bg-white flex items-center justify-center border border-outline-variant/20 shadow-sm">
+<span class="material-symbols-outlined text-on-surface-variant">ac_unit</span>
+</div>
+<div>
+<h4 class="text-xs font-bold">Ice Bath</h4>
+<p class="text-[10px] text-on-surface-variant">Low temperature kinetics</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex justify-between items-center px-12 py-4 bg-white/90 backdrop-blur-md border-t border-surface-container-highest">
+<button onclick="window.location.href='step6.html'" class="flex items-center gap-2 text-[#005d8f] font-inter text-sm font-semibold hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+<span>Back</span>
+</button>
+<div class="flex items-center gap-6">
+<button onclick="submitStepDataAndContinue('step8.html')" class="flex items-center gap-2 bg-[#0077b5] text-white rounded-full px-6 py-2.5 font-inter text-sm font-semibold hover:bg-[#005d8f] transition-colors shadow-sm">
+<span>Next</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</footer>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const tempSlider = document.getElementById('temp-slider');
+        const tempDisplay = document.getElementById('temp-display');
+        const tempTrack = document.getElementById('temp-track');
+        const tempStatus = document.getElementById('temp-status');
+
+        tempSlider.addEventListener('input', (e) => {
+            const val = parseFloat(e.target.value);
+            tempDisplay.textContent = val.toFixed(2);
+            
+            // Update track width
+            const percent = (val / 1000) * 100;
+            tempTrack.style.width = `${percent}%`;
+            
+            // Update status pill
+            if (val < 100) {
+                tempStatus.innerHTML = '<span class="material-symbols-outlined text-sm mr-1">ac_unit</span>CRYOGENIC';
+                tempStatus.className = 'inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold';
+            } else if (val < 400) {
+                tempStatus.innerHTML = '<span class="material-symbols-outlined text-sm mr-1">thermostat</span>AMBIENT';
+                tempStatus.className = 'inline-flex items-center px-3 py-1 rounded-full bg-tertiary/10 text-tertiary text-xs font-bold';
+            } else if (val < 800) {
+                tempStatus.innerHTML = '<span class="material-symbols-outlined text-sm mr-1">local_fire_department</span>HOT';
+                tempStatus.className = 'inline-flex items-center px-3 py-1 rounded-full bg-orange-500/10 text-orange-600 text-xs font-bold';
+            } else {
+                tempStatus.innerHTML = '<span class="material-symbols-outlined text-sm mr-1">warning</span>CRITICAL';
+                tempStatus.className = 'inline-flex items-center px-3 py-1 rounded-full bg-red-500/10 text-red-600 text-xs font-bold';
+            }
+        });
+    });
+</script>
+<script>
+    async function submitStepDataAndContinue(nextPage) {
+        // Collect all inputs on the current page
+        const inputs = document.querySelectorAll('input, select');
+        const data = {};
+        inputs.forEach(input => {
+            data[input.id || input.name] = input.type === 'checkbox' ? input.checked : input.value;
+        });
+
+        const btn = document.querySelector('button[onclick^="submitStepData"]');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<span>Saving...</span>';
+        btn.disabled = true;
+
+        try {
+            const response = await fetch('/api/save_step', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ page: window.location.pathname, data: data })
+            });
+
+            if (response.ok) {
+                window.location.href = '/' + nextPage.replace('.html', '');
+            } else {
+                throw new Error('Failed to save');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Failed to connect to the backend server.');
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
+    }
+</script>
+</body></html>
+

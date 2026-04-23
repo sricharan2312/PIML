@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Current Density Prediction | Physics Model Engine</title>
+    <!-- Tailwind CSS with container-queries -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Fonts and Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+          tailwind.config = {
+            darkMode: "class",
+            theme: {
+              extend: {
+                "colors": {
+                        "on-secondary-container": "#48647d",
+                        "tertiary": "#854a00",
+                        "inverse-primary": "#93ccff",
+                        "on-secondary-fixed": "#001d32",
+                        "primary-container": "#0077b5",
+                        "on-tertiary-fixed": "#2d1600",
+                        "surface": "#f7fafc",
+                        "surface-dim": "#d7dadc",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-tint": "#006398",
+                        "secondary-fixed": "#cde5ff",
+                        "primary-fixed-dim": "#93ccff",
+                        "inverse-on-surface": "#eef1f3",
+                        "secondary": "#45617a",
+                        "inverse-surface": "#2d3133",
+                        "background": "#f7fafc",
+                        "on-primary-fixed-variant": "#004b74",
+                        "primary-fixed": "#cde5ff",
+                        "secondary-container": "#c3e0fe",
+                        "on-secondary-fixed-variant": "#2d4961",
+                        "error-container": "#ffdad6",
+                        "on-secondary": "#ffffff",
+                        "on-surface": "#181c1e",
+                        "tertiary-fixed": "#ffdcc0",
+                        "on-surface-variant": "#404850",
+                        "on-tertiary-container": "#fff5ef",
+                        "on-primary": "#ffffff",
+                        "on-background": "#181c1e",
+                        "surface-container": "#ebeef0",
+                        "outline": "#707881",
+                        "surface-bright": "#f7fafc",
+                        "outline-variant": "#bfc7d1",
+                        "on-error-container": "#93000a",
+                        "on-primary-container": "#f3f7ff",
+                        "surface-container-high": "#e5e9eb",
+                        "tertiary-container": "#a85f00",
+                        "on-tertiary-fixed-variant": "#6b3b00",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#f1f4f6",
+                        "primary": "#005d8f",
+                        "secondary-fixed-dim": "#adcae7",
+                        "surface-container-highest": "#e0e3e5",
+                        "tertiary-fixed-dim": "#ffb876",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-primary-fixed": "#001d32",
+                        "surface-variant": "#e0e3e5"
+                },
+                "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                },
+                "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                }
+              },
+            },
+          }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .primary-gradient {
+            background: linear-gradient(135deg, #005d8f 0%, #0077b5 100%);
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+        }
+        a { text-decoration: none; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body min-h-screen w-full relative">
+    
+    <header class="w-full top-0 sticky bg-[#f1f4f6] dark:bg-slate-800 z-50">
+        <div class="flex justify-between items-center w-full px-8 py-4 max-w-full">
+            <div class="flex items-center gap-4">
+                <span class="text-xl font-bold font-headline text-[#005d8f] dark:text-[#0077b5]">Physics-Informed Machine Learning for Predicting the Electrochemical Performance of Zn/Co-Doped BiFeO3 Electrodes</span>
+            </div>
+            <div class="flex items-center gap-6">
+                <!-- Clean header, no extra buttons -->
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-8 py-12 pb-32">
+        <div class="flex flex-col gap-10">
+            <div class="flex flex-col gap-2">
+                <div class="flex justify-between items-end">
+                    <h1 class="font-headline text-4xl font-extrabold tracking-tight text-on-surface">Current Density Prediction</h1>
+                    <div class="flex flex-col items-end gap-1">
+                        <span class="font-label text-sm font-bold text-primary">COMPLETED</span>
+                    </div>
+                </div>
+                <div class="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
+                    <div class="h-full primary-gradient w-full"></div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <!-- Left Graph Column -->
+                <div class="lg:col-span-7 flex flex-col gap-8">
+                    <!-- Graph Replaces the default Final Output Widget -->
+                    <section class="bg-surface-container-lowest p-6 md:p-10 rounded-xl shadow-[0_12px_32px_-4px_rgba(24,28,30,0.06)] flex flex-col items-center text-center">
+                        <span class="font-label text-sm font-semibold text-primary uppercase tracking-widest mb-2">Cyclic Voltammetry Trajectory</span>
+                        <p class="text-on-surface-variant max-w-lg mx-auto leading-relaxed mb-6">
+                            Based on your provided parameters, the PIML model predicts the following electrochemical response. The curve reflects redox peak positions and capacitive charging currents.
+                        </p>
+                        
+                        <div class="w-full relative overflow-hidden rounded-lg bg-white flex items-center justify-center">
+                            <canvas id="cvChart"></canvas>
+                        </div>
+                    </section>
+                    
+                    <!-- Dynamic Metrics Replace Hardcoded Blocks -->
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        {% if data['results'] and data['results']['metrics'] %}
+                            {% for key, val in data['results']['metrics'].items() %}
+                            <div class="bg-surface-container-low p-6 rounded-lg text-left shadow-sm">
+                                <span class="block font-label text-[11px] font-semibold text-on-surface-variant uppercase mb-1">{{ key }}</span>
+                                <span class="font-headline text-xl font-bold text-on-surface">{{ val }}</span>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="bg-surface-container-low p-6 rounded-lg text-center col-span-3">
+                                <span class="text-on-surface-variant">Awaiting model inference...</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Right Input Summary Column -->
+                <div class="lg:col-span-5 flex flex-col gap-6">
+                    <h3 class="font-headline text-xl font-bold text-on-surface px-2">Input Summary</h3>
+                    <div class="bg-surface-container-lowest rounded-xl border border-outline-variant/10 overflow-hidden shadow-sm">
+                        <div class="divide-y divide-outline-variant/10">
+                            {% for key, val in data['config'].items() %}
+                            <div class="flex justify-between items-center p-4 hover:bg-surface-container-low transition-colors group">
+                                <span class="font-label text-sm text-on-surface-variant group-hover:text-primary transition-colors">{{ key.replace('_', ' ').capitalize() }}</span>
+                                <span class="font-body text-sm font-semibold text-on-surface">{{ val }}</span>
+                            </div>
+                            {% else %}
+                            <div class="p-4 text-sm text-on-surface-variant">No configuration data captured.</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    
+                    <!-- Export Action -->
+                    <a href="{{ url_for('export_csv') }}" id="exportBtn" class="w-full flex items-center justify-center gap-2 border shadow-sm border-outline-variant p-4 rounded-lg font-semibold text-primary hover:bg-surface-container-high transition-all active:scale-95 bg-white">
+                        <span class="material-symbols-outlined">download</span>
+                        <span>Export Computed Metrics CSV</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Fixed Bottom Controls -->
+    <footer class="fixed bottom-0 left-0 w-full z-50 flex justify-between items-center px-12 py-6 bg-[#ffffffcc] dark:bg-slate-900/80 backdrop-blur-xl shadow-[0_-12px_32px_-4px_rgba(24,28,30,0.06)] border-t border-[#bfcfd133] dark:border-slate-800">
+        <a href="/step8" class="text-[#005d8f] dark:text-[#0077b5] font-inter text-sm font-semibold tracking-wide px-7 py-3 hover:opacity-90 transition-opacity flex items-center gap-2 group transition-transform active:scale-90 cursor-pointer">
+            <span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+            <span>Back to Edit</span>
+        </a>
+        <a href="/" class="bg-gradient-to-br from-[#005d8f] to-[#0077b5] text-white rounded-full px-7 py-3 font-inter text-sm font-semibold tracking-wide shadow-lg hover:opacity-90 transition-all active:scale-90 flex items-center gap-2 cursor-pointer">
+            <span>Start Over</span>
+            <span class="material-symbols-outlined" data-icon="refresh">refresh</span>
+        </a>
+    </footer>
+
+    <!-- Chart Application logic -->
+    <script>
+        const potentials = {{ data['results'].get('potentials', []) | tojson }};
+        const currents = {{ data['results'].get('currents', []) | tojson }};
+        
+        if(potentials.length > 0 && currents.length > 0) {
+            // Map the two arrays into true {x, y} mathematical coordinates
+            const scatterData = potentials.map((p, index) => ({
+                x: p,
+                y: currents[index]
+            }));
+
+            const ctx = document.getElementById('cvChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Predicted Total Current (mA)',
+                        data: scatterData,
+                        borderColor: '#005d8f', // Matches primary tailwind
+                        backgroundColor: 'rgba(0, 93, 143, 0.1)',
+                        borderWidth: 3,
+                        pointRadius: 0, 
+                        showLine: true,
+                        fill: true,
+                        tension: 0.4 
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: { display: false }, // Cleaner layout
+                        tooltip: { 
+                            backgroundColor: 'rgba(24, 28, 30, 0.9)',
+                            callbacks: { label: (ctx) => `V: ${ctx.parsed.x.toFixed(3)} V | I: ${ctx.parsed.y.toFixed(4)} mA` } 
+                        }
+                    },
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            title: { display: true, text: 'Potential (V)', font: { family: 'Inter', weight: '600' } },
+                            grid: { borderDash: [5, 5], color: '#e5e9eb' },
+                        },
+                        y: {
+                            title: { display: true, text: 'Total Current (mA)', font: { family: 'Inter', weight: '600' } },
+                            grid: { borderDash: [5, 5], color: '#e5e9eb' },
+                        }
+                    }
+                }
+            });
+        } else {
+            // Fail gracefully if physics backend data fails
+            let errorMsg = "The ML model returned empty arrays. Re-check the backend logs.";
+            {% if data['results'] and data['results'].get('error') %}
+            errorMsg = "{{ data['results'].get('error') | escape }}";
+            {% endif %}
+            document.getElementById('cvChart').outerHTML = `
+                <div style="text-align:center; padding: 40px; background-color: #ffdad6; border-radius: 8px; width: 100%;">
+                    <h3 style="color:#ba1a1a; font-weight: 700;">No Prediction Generated / Error Captured</h3>
+                    <p style="color:#93000a;">${errorMsg}</p>
+                </div>
+            `;
+            document.getElementById('exportBtn').style.display = 'none';
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,2 @@
+set PATH=C:\users\sri charan\miniconda3\envs\tf-gpu;C:\users\sri charan\miniconda3\envs\tf-gpu\Library\mingw-w64\bin;C:\users\sri charan\miniconda3\envs\tf-gpu\Library\usr\bin;C:\users\sri charan\miniconda3\envs\tf-gpu\Library\bin;C:\users\sri charan\miniconda3\envs\tf-gpu\Scripts;C:\users\sri charan\miniconda3\envs\tf-gpu\bin;%PATH%
+"C:\users\sri charan\miniconda3\envs\tf-gpu\python.exe" project/main_files/PIML_training.py --epochs 2

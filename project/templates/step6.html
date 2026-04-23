@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Physics Model Engine - Step 6</title>
+<!-- Typography -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "on-secondary-container": "#48647d",
+                "tertiary": "#854a00",
+                "inverse-primary": "#93ccff",
+                "on-secondary-fixed": "#001d32",
+                "primary-container": "#0077b5",
+                "on-tertiary-fixed": "#2d1600",
+                "surface": "#f7fafc",
+                "surface-dim": "#d7dadc",
+                "surface-container-lowest": "#ffffff",
+                "surface-tint": "#006398",
+                "secondary-fixed": "#cde5ff",
+                "primary-fixed-dim": "#93ccff",
+                "inverse-on-surface": "#eef1f3",
+                "secondary": "#45617a",
+                "inverse-surface": "#2d3133",
+                "background": "#f7fafc",
+                "on-primary-fixed-variant": "#004b74",
+                "primary-fixed": "#cde5ff",
+                "secondary-container": "#c3e0fe",
+                "on-secondary-fixed-variant": "#2d4961",
+                "error-container": "#ffdad6",
+                "on-secondary": "#ffffff",
+                "on-surface": "#181c1e",
+                "tertiary-fixed": "#ffdcc0",
+                "on-surface-variant": "#404850",
+                "on-tertiary-container": "#fff5ef",
+                "on-primary": "#ffffff",
+                "on-background": "#181c1e",
+                "surface-container": "#ebeef0",
+                "outline": "#707881",
+                "surface-bright": "#f7fafc",
+                "outline-variant": "#bfc7d1",
+                "on-error-container": "#93000a",
+                "on-primary-container": "#f3f7ff",
+                "surface-container-high": "#e5e9eb",
+                "tertiary-container": "#a85f00",
+                "on-tertiary-fixed-variant": "#6b3b00",
+                "on-error": "#ffffff",
+                "surface-container-low": "#f1f4f6",
+                "primary": "#005d8f",
+                "secondary-fixed-dim": "#adcae7",
+                "surface-container-highest": "#e0e3e5",
+                "tertiary-fixed-dim": "#ffb876",
+                "on-tertiary": "#ffffff",
+                "error": "#ba1a1a",
+                "on-primary-fixed": "#001d32",
+                "surface-variant": "#e0e3e5"
+            },
+            "fontFamily": {
+                "headline": ["Manrope"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+            }
+          }
+        }
+      }
+</script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .headline-lg { font-size: 2rem; line-height: 2.5rem; font-weight: 800; }
+      .body-md { font-size: 0.875rem; line-height: 1.25rem; }
+      .label-md { font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; }
+      .label-sm { font-size: 0.75rem; line-height: 1rem; font-weight: 500; }
+      .title-sm { font-size: 0.875rem; line-height: 1.25rem; font-weight: 600; }
+</style>
+</head>
+<body class="bg-surface text-on-surface font-body min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky bg-[#f1f4f6] dark:bg-slate-800 z-50">
+<div class="flex justify-between items-center w-full px-8 py-4 max-w-full">
+<div class="flex items-center gap-4">
+<span class="text-xl font-bold font-headline text-[#005d8f] dark:text-[#0077b5]">Physics-Informed Machine Learning for Predicting the Electrochemical Performance of Zn/Co-Doped BiFeO3 Electrodes
+</span>
+</div>
+<div class="flex items-center gap-6">
+<!-- Settings and profile removed -->
+</div>
+</div>
+</header>
+<main class="max-w-5xl mx-auto px-6 pt-12 pb-32">
+<!-- Progress Section -->
+<div class="mb-12 w-full">
+<div class="flex justify-between items-end mb-3">
+<h1 class="font-headline text-3xl font-extrabold tracking-tight text-[#181c1e]">Chemical Properties</h1>
+<span class="font-label text-sm font-semibold text-on-surface-variant">Step 6 of 8</span>
+</div>
+<div class="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div id="progress-bar" class="h-full bg-gradient-to-r from-primary to-primary-container transition-all duration-1000 ease-out" style="width: 0%;"></div>
+<script>setTimeout(() => { document.getElementById('progress-bar').style.width = '75%'; }, 50);</script>
+</div>
+</div>
+<!-- Main Content Canvas -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+<!-- Left: Instruction Card -->
+<div class="lg:col-span-5 space-y-6">
+<div class="bg-surface-container-low p-8 rounded-xl">
+<h2 class="font-headline text-xl font-bold mb-4">Material Substitution: Cobalt (Co)</h2>
+<p class="text-on-surface-variant leading-relaxed mb-6">
+                        Define the molar fraction of Cobalt (Co) substitution in the BiFeO3 lattice. Co-doping introduces electronic charge carriers and modifies the dielectric response, significantly enhancing the specific capacitance and redox active sites on the electrode surface.
+                    </p>
+<div class="flex items-center gap-4 text-primary bg-surface-container-lowest p-4 rounded-lg border border-outline-variant/20">
+<span class="material-symbols-outlined" data-icon="info">info</span>
+<span class="text-sm font-semibold">Active CO integration increases computational load by 12.4%</span>
+</div>
+</div>
+<div class="relative rounded-xl overflow-hidden h-48">
+<img class="absolute inset-0 w-full h-full object-cover" data-alt="abstract close-up of metallic crystalline structures with deep blue and silver metallic reflections" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOdFtP--3HFxFlmu-WCgDl5aaCpaVRsFDW2GsK1QihMMjbxSf3jGqV4aRLHqAObYKpwkzEcjxDMv7xwfrByaEQv4pu3TxYntwxfLfhtEiJzoJMy9Q21CnQGFBihJPRyYzsGjhxVQXhNCMwB6yFGG31tMEXj2lzDk3iVitu_bAfOgZ0bRuybXD4654RfblxvdPA0kAZWw8NgZCQBt9Jc1qvDQVDYZzgdl1SO1xMQMe7K6J-ARrL8CIWTi93BeyLZYt3-NcOpmUe7iz2"/>
+<div class="absolute inset-0 bg-primary/10 mix-blend-overlay"></div>
+</div>
+</div>
+<!-- Right: Interactive Toggle Area -->
+<div class="lg:col-span-7">
+<div class="bg-surface-container-lowest p-10 rounded-xl shadow-sm border border-outline-variant/10">
+<div class="flex flex-col gap-8">
+<div class="flex items-center justify-between p-6 rounded-xl bg-surface-container-low/50 hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-5">
+<div class="w-12 h-12 flex items-center justify-center bg-primary-container text-on-primary-container rounded-lg">
+<span class="font-headline font-bold text-lg">Co</span>
+</div>
+<div>
+<h3 class="font-bold text-lg">Enable Cobalt Doping</h3>
+<p class="text-sm text-on-surface-variant">Activate Co-substitution calculations</p>
+</div>
+</div>
+<!-- Premium Boolean Toggle -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" id="isotope-toggle"/>
+<div class="w-14 h-8 bg-surface-container-highest rounded-full border-2 border-transparent transition-colors peer-checked:bg-primary group-hover:bg-outline-variant/50"></div>
+<div class="absolute left-1 top-1 bg-white w-6 h-6 rounded-full shadow-md transform transition-transform peer-checked:translate-x-6"></div>
+</label>
+</div>
+<!-- Secondary Attributes -->
+<div class="space-y-4">
+<h4 class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Associated Parameters</h4>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-4 bg-surface-container-low rounded-lg border border-transparent hover:border-primary-container transition-all">
+<span class="text-xs font-medium text-on-secondary-container">Standard Oxidation</span>
+<p class="text-lg font-headline font-bold">Cobalt 2+ / 3+</p>
+</div>
+<div class="p-4 bg-surface-container-low rounded-lg border border-transparent hover:border-primary-container transition-all">
+<span class="text-xs font-medium text-on-secondary-container">Diffusion Coeff.</span>
+<p class="text-lg font-headline font-bold">1.3 x 10^-7 cm2/s</p>
+</div>
+</div>
+</div>
+<div class="p-4 bg-tertiary/5 border-l-4 border-tertiary rounded-r-lg">
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-tertiary" data-icon="lightbulb">lightbulb</span>
+<div>
+<p class="text-sm font-bold text-tertiary">Optimization Tip</p>
+<p class="text-xs text-on-surface-variant">The synergy between Zn and Co substitution often provides better performance than pure Co-doping alone.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex justify-between items-center px-12 py-4 bg-white/90 backdrop-blur-md border-t border-surface-container-highest">
+<button onclick="window.location.href='step5.html'" class="flex items-center gap-2 text-[#005d8f] font-inter text-sm font-semibold hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+<span>Back</span>
+</button>
+<div class="flex items-center gap-6">
+<button onclick="submitStepDataAndContinue('step7.html')" class="flex items-center gap-2 bg-[#0077b5] text-white rounded-full px-6 py-2.5 font-inter text-sm font-semibold hover:bg-[#005d8f] transition-colors shadow-sm">
+<span>Next</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.getElementById('isotope-toggle');
+    const settingsPanel = document.getElementById('isotope-settings');
+    const conflictWarning = document.getElementById('conflict-warning');
+
+    function updateVisibility() {
+        if (toggle.checked) {
+            settingsPanel.style.opacity = '1';
+            settingsPanel.style.pointerEvents = 'auto';
+            conflictWarning.style.display = 'block';
+        } else {
+            settingsPanel.style.opacity = '0.3';
+            settingsPanel.style.pointerEvents = 'none';
+            conflictWarning.style.display = 'none';
+        }
+    }
+
+    // Set initial state
+    updateVisibility();
+
+    toggle.addEventListener('change', updateVisibility);
+});
+</script>
+<script>
+    async function submitStepDataAndContinue(nextPage) {
+        // Collect all inputs on the current page
+        const inputs = document.querySelectorAll('input, select');
+        const data = {};
+        inputs.forEach(input => {
+            data[input.id || input.name] = input.type === 'checkbox' ? input.checked : input.value;
+        });
+
+        const btn = document.querySelector('button[onclick^="submitStepData"]');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<span>Saving...</span>';
+        btn.disabled = true;
+
+        try {
+            const response = await fetch('/api/save_step', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ page: window.location.pathname, data: data })
+            });
+
+            if (response.ok) {
+                window.location.href = '/' + nextPage.replace('.html', '');
+            } else {
+                throw new Error('Failed to save');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Failed to connect to the backend server.');
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
+    }
+</script>
+</body></html>
+

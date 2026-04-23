@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Physics Model Engine - Step 4</title>
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "on-secondary-container": "#48647d",
+                "tertiary": "#854a00",
+                "inverse-primary": "#93ccff",
+                "on-secondary-fixed": "#001d32",
+                "primary-container": "#0077b5",
+                "on-tertiary-fixed": "#2d1600",
+                "surface": "#f7fafc",
+                "surface-dim": "#d7dadc",
+                "surface-container-lowest": "#ffffff",
+                "surface-tint": "#006398",
+                "secondary-fixed": "#cde5ff",
+                "primary-fixed-dim": "#93ccff",
+                "inverse-on-surface": "#eef1f3",
+                "secondary": "#45617a",
+                "inverse-surface": "#2d3133",
+                "background": "#f7fafc",
+                "on-primary-fixed-variant": "#004b74",
+                "primary-fixed": "#cde5ff",
+                "secondary-container": "#c3e0fe",
+                "on-secondary-fixed-variant": "#2d4961",
+                "error-container": "#ffdad6",
+                "on-secondary": "#ffffff",
+                "on-surface": "#181c1e",
+                "tertiary-fixed": "#ffdcc0",
+                "on-surface-variant": "#404850",
+                "on-tertiary-container": "#fff5ef",
+                "on-primary": "#ffffff",
+                "on-background": "#181c1e",
+                "surface-container": "#ebeef0",
+                "outline": "#707881",
+                "surface-bright": "#f7fafc",
+                "outline-variant": "#bfc7d1",
+                "on-error-container": "#93000a",
+                "on-primary-container": "#f3f7ff",
+                "surface-container-high": "#e5e9eb",
+                "tertiary-container": "#a85f00",
+                "on-tertiary-fixed-variant": "#6b3b00",
+                "on-error": "#ffffff",
+                "surface-container-low": "#f1f4f6",
+                "primary": "#005d8f",
+                "secondary-fixed-dim": "#adcae7",
+                "surface-container-highest": "#e0e3e5",
+                "tertiary-fixed-dim": "#ffb876",
+                "on-tertiary": "#ffffff",
+                "error": "#ba1a1a",
+                "on-primary-fixed": "#001d32",
+                "surface-variant": "#e0e3e5"
+            },
+            "fontFamily": {
+                "headline": ["Manrope"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+            }
+          }
+        }
+      }
+</script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .headline-lg { font-size: 2rem; line-height: 2.5rem; font-weight: 800; }
+      .body-md { font-size: 0.875rem; line-height: 1.25rem; }
+      .label-md { font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; }
+      .label-sm { font-size: 0.75rem; line-height: 1rem; font-weight: 500; }
+      .title-sm { font-size: 0.875rem; line-height: 1.25rem; font-weight: 600; }
+</style>
+</head>
+<body class="bg-surface text-on-surface font-body min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky bg-[#f1f4f6] dark:bg-slate-800 z-50">
+<div class="flex justify-between items-center w-full px-8 py-4 max-w-full">
+<div class="flex items-center gap-4">
+<span class="text-xl font-bold font-headline text-[#005d8f] dark:text-[#0077b5]">Physics-Informed Machine Learning for Predicting the Electrochemical Performance of Zn/Co-Doped BiFeO3 Electrodes
+</span>
+</div>
+<div class="flex items-center gap-6">
+<!-- Settings and profile removed -->
+</div>
+</div>
+</header>
+<main class="max-w-5xl mx-auto px-8 pt-12 pb-32 flex-grow">
+<!-- Progress Indicator -->
+<div class="mb-12 w-full">
+<div class="flex justify-between items-end mb-3">
+<h1 class="font-headline text-3xl font-extrabold tracking-tight text-[#181c1e]">Scan Rate Optimization</h1>
+<span class="font-label text-sm font-semibold text-on-surface-variant">Step 4 of 8</span>
+</div>
+<div class="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div id="progress-bar" class="h-full bg-gradient-to-r from-primary to-primary-container transition-all duration-1000 ease-out" style="width: 0%;"></div>
+<script>setTimeout(() => { document.getElementById('progress-bar').style.width = '50%'; }, 50);</script>
+</div>
+</div>
+<!-- Main Configuration Canvas -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+<!-- Left Column: Instructional & Visual context -->
+<div class="md:col-span-4 space-y-6">
+<div class="bg-surface-container-low p-8 rounded-xl">
+<h3 class="font-headline text-lg font-bold text-on-surface mb-4">Parameter Definition</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-6">
+                        The scan rate is the speed at which the voltage is changed (measured in mV/s). A faster scan rate leads to a higher current peak during measurement.
+                    </p>
+<div class="aspect-square rounded-lg overflow-hidden bg-surface-container-lowest border border-outline-variant/20 shadow-sm">
+<img alt="Physics visualization" class="w-full h-full object-cover opacity-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGjLse0qkp9Cgf3vit06xfT8qQnsOaiIGem9GntTZ2qNGHHeq3MoRaLeq1lPomL5V23cDs49zk2EBQihM5byXG1iNeKnc1ByKGnTYNuSj7mJhlFJiR7m5iiol8AW-I8ZPvVf5w3zrRwzxcw2nl3h83fU_Ny_kWomy1j0CRvZr1AK9RHWc-cllEgawT1M4al-N2DeJZe_wqhg8uGjCw4IWON0vZaXGYFLUJjFyUsxjd79Rj3IxlbDFfa_sc4DZ_e-bUqriJNp_CkqDv"/>
+</div>
+</div>
+</div>
+<!-- Right Column: Interactive Inputs -->
+<div class="md:col-span-8">
+<div class="bg-surface-container-lowest p-10 rounded-xl shadow-[0_4px_20px_-4px_rgba(24,28,30,0.04)] border border-outline-variant/10">
+<div class="space-y-12">
+<!-- Numeric Input Section -->
+<div class="flex justify-between items-end gap-8">
+<div class="flex-1">
+<label class="block font-label text-sm font-semibold text-on-surface-variant mb-3">Precision Scan Rate (mV/s)</label>
+<div class="relative group">
+<input id="scan-input" class="w-full bg-surface-container-lowest border-0 border-b-2 border-surface-container-highest focus:border-primary focus:ring-0 text-3xl font-headline font-bold text-on-surface py-2 transition-all" placeholder="0.00" type="number" step="1" min="5" max="250" value="50"/>
+<div class="absolute right-0 bottom-3 text-on-surface-variant/50 font-bold tracking-tighter">MV/S</div>
+</div>
+<p class="mt-4 text-xs text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">info</span>
+                                    Recommended range: 10 — 200 mV/s for standard CV models.
+                                </p>
+</div>
+</div>
+<!-- Slider Section -->
+<div class="space-y-8">
+<div class="flex justify-between items-center">
+<span class="font-label text-xs font-bold text-on-surface-variant uppercase tracking-widest">Coarse Adjustment</span>
+<span id="scan-percent" class="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold">Active Value: 37.8%</span>
+</div>
+<div class="relative py-4">
+<!-- Real slider taking over the custom styling -->
+<input id="scan-slider" class="absolute w-full h-[0px] z-20 cursor-pointer opacity-0" type="range" min="5" max="250" step="1" value="50" style="appearance: none; height: 24px; top: 10px;" />
+<div class="relative w-full h-1.5 bg-surface-container-highest rounded-full pointer-events-none">
+<!-- Active Track -->
+<div id="scan-track" class="absolute h-full bg-gradient-to-r from-primary to-primary-container rounded-full" style="width: 37.78%"></div>
+<!-- Thumb visuals -->
+<div id="scan-thumb" class="absolute h-6 w-6 bg-surface-container-lowest border-[3px] border-primary rounded-full top-1/2 -translate-y-1/2 -ml-3 shadow-lg" style="left: 37.78%"></div>
+</div>
+</div>
+<div class="flex justify-between text-[10px] font-bold text-on-surface-variant/40 uppercase tracking-tighter mt-2">
+<span>Minimum (5)</span>
+<span>Nominal (50)</span>
+<span>Maximum (250)</span>
+</div>
+</div>
+<!-- Bento Style Toggles for Presets -->
+<div class="grid grid-cols-3 gap-4">
+<button id="preset-high" class="flex flex-col items-center justify-center p-4 rounded-lg bg-surface-container-low hover:bg-surface-container-high transition-colors group cursor-pointer">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">bolt</span>
+<span class="text-[10px] font-bold mt-2 uppercase tracking-wide">High Speed</span>
+<span class="text-[8px] text-outline">(200)</span>
+</button>
+<button id="preset-mid" class="flex flex-col items-center justify-center p-4 rounded-lg bg-primary-container/10 border border-primary/20 group cursor-pointer relative">
+<span class="material-symbols-outlined text-primary">precision_manufacturing</span>
+<span class="text-[10px] font-bold mt-2 uppercase tracking-wide text-primary">Balanced</span>
+<span class="text-[8px] text-primary opacity-80">(50)</span>
+<div id="preset-mid-indicator" class="absolute inset-0 ring-2 ring-primary rounded-lg pointer-events-none opacity-0 transition-opacity"></div>
+</button>
+<button id="preset-low" class="flex flex-col items-center justify-center p-4 rounded-lg bg-surface-container-low hover:bg-surface-container-high transition-colors group cursor-pointer">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">biotech</span>
+<span class="text-[10px] font-bold mt-2 uppercase tracking-wide">Ultra Fine</span>
+<span class="text-[8px] text-outline">(10)</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex justify-between items-center px-12 py-4 bg-white/90 backdrop-blur-md border-t border-surface-container-highest">
+<button onclick="window.location.href='step3.html'" class="flex items-center gap-2 text-[#005d8f] font-inter text-sm font-semibold hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+<span>Back</span>
+</button>
+<div class="flex items-center gap-6">
+<button onclick="submitStepDataAndContinue('step5.html')" class="flex items-center gap-2 bg-[#0077b5] text-white rounded-full px-6 py-2.5 font-inter text-sm font-semibold hover:bg-[#005d8f] transition-colors shadow-sm">
+<span>Next</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</footer>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const scanSlider = document.getElementById('scan-slider');
+        const scanInput = document.getElementById('scan-input');
+        const scanTrack = document.getElementById('scan-track');
+        const scanThumb = document.getElementById('scan-thumb');
+        const scanPercent = document.getElementById('scan-percent');
+        
+        function updateVisuals(val) {
+            const min = parseFloat(scanSlider.min) || 5;
+            const max = parseFloat(scanSlider.max) || 250;
+            const percentage = ((val - min) / (max - min)) * 100;
+            
+            scanTrack.style.width = percentage + '%';
+            scanThumb.style.left = percentage + '%';
+            scanPercent.textContent = `Active Value: ${percentage.toFixed(1)}%`;
+            scanInput.value = val;
+            scanSlider.value = val;
+
+            // Highlight mid preset if matched
+            document.getElementById('preset-mid-indicator').style.opacity = val === 50 ? '1' : '0';
+        }
+
+        scanSlider.addEventListener('input', (e) => {
+            updateVisuals(parseFloat(e.target.value));
+        });
+
+        scanInput.addEventListener('input', (e) => {
+            let val = parseFloat(e.target.value);
+            if (!isNaN(val)) {
+                if (val < parseFloat(scanSlider.min)) val = parseFloat(scanSlider.min);
+                if (val > parseFloat(scanSlider.max)) val = parseFloat(scanSlider.max);
+                updateVisuals(val);
+            }
+        });
+
+        // Initialize presets
+        document.getElementById('preset-high').addEventListener('click', () => updateVisuals(200));
+        document.getElementById('preset-mid').addEventListener('click', () => updateVisuals(50));
+        document.getElementById('preset-low').addEventListener('click', () => updateVisuals(10));
+
+        // Initial setup
+        updateVisuals(50);
+    });
+</script>
+<script>
+    async function submitStepDataAndContinue(nextPage) {
+        // Collect all inputs on the current page
+        const inputs = document.querySelectorAll('input, select');
+        const data = {};
+        inputs.forEach(input => {
+            data[input.id || input.name] = input.type === 'checkbox' ? input.checked : input.value;
+        });
+
+        const btn = document.querySelector('button[onclick^="submitStepData"]');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<span>Saving...</span>';
+        btn.disabled = true;
+
+        try {
+            const response = await fetch('/api/save_step', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ page: window.location.pathname, data: data })
+            });
+
+            if (response.ok) {
+                window.location.href = '/' + nextPage.replace('.html', '');
+            } else {
+                throw new Error('Failed to save');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Failed to connect to the backend server.');
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
+    }
+</script>
+</body>
+</html>
+

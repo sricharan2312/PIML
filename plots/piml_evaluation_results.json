@@ -1,0 +1,13 @@
+{
+  "R2": 0.3371284604072571,
+  "RMSE": 8285020.672225266,
+  "MAE": 4402171.0,
+  "MSE": 68641567539200.0,
+  "current_exceed_%": 100.0,
+  "negative_cap_%": 0.0,
+  "large_jumps_%": 0.0,
+  "bv_sign_violation_%": 28.676,
+  "charge_imbalance_%": 100.0,
+  "nernst_violation_%": 100.0,
+  "randles_sevcik_R2": 1.0
+}

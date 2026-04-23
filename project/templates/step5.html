@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Physics Model Engine - Step 5: Zinc Configuration</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "on-secondary-container": "#48647d",
+                "tertiary": "#854a00",
+                "inverse-primary": "#93ccff",
+                "on-secondary-fixed": "#001d32",
+                "primary-container": "#0077b5",
+                "on-tertiary-fixed": "#2d1600",
+                "surface": "#f7fafc",
+                "surface-dim": "#d7dadc",
+                "surface-container-lowest": "#ffffff",
+                "surface-tint": "#006398",
+                "secondary-fixed": "#cde5ff",
+                "primary-fixed-dim": "#93ccff",
+                "inverse-on-surface": "#eef1f3",
+                "secondary": "#45617a",
+                "inverse-surface": "#2d3133",
+                "background": "#f7fafc",
+                "on-primary-fixed-variant": "#004b74",
+                "primary-fixed": "#cde5ff",
+                "secondary-container": "#c3e0fe",
+                "on-secondary-fixed-variant": "#2d4961",
+                "error-container": "#ffdad6",
+                "on-secondary": "#ffffff",
+                "on-surface": "#181c1e",
+                "tertiary-fixed": "#ffdcc0",
+                "on-surface-variant": "#404850",
+                "on-tertiary-container": "#fff5ef",
+                "on-primary": "#ffffff",
+                "on-background": "#181c1e",
+                "surface-container": "#ebeef0",
+                "outline": "#707881",
+                "surface-bright": "#f7fafc",
+                "outline-variant": "#bfc7d1",
+                "on-error-container": "#93000a",
+                "on-primary-container": "#f3f7ff",
+                "surface-container-high": "#e5e9eb",
+                "tertiary-container": "#a85f00",
+                "on-tertiary-fixed-variant": "#6b3b00",
+                "on-error": "#ffffff",
+                "surface-container-low": "#f1f4f6",
+                "primary": "#005d8f",
+                "secondary-fixed-dim": "#adcae7",
+                "surface-container-highest": "#e0e3e5",
+                "tertiary-fixed-dim": "#ffb876",
+                "on-tertiary": "#ffffff",
+                "error": "#ba1a1a",
+                "on-primary-fixed": "#001d32",
+                "surface-variant": "#e0e3e5"
+            },
+            "fontFamily": {
+                "headline": ["Manrope"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+            }
+          }
+        }
+      }
+</script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .headline-lg { font-size: 2rem; line-height: 2.5rem; font-weight: 800; }
+      .body-md { font-size: 0.875rem; line-height: 1.25rem; }
+      .label-md { font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; }
+      .label-sm { font-size: 0.75rem; line-height: 1rem; font-weight: 500; }
+      .title-sm { font-size: 0.875rem; line-height: 1.25rem; font-weight: 600; }
+</style>
+</head>
+<body class="bg-surface text-on-surface font-body min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky bg-[#f1f4f6] dark:bg-slate-800 z-50">
+<div class="flex justify-between items-center w-full px-8 py-4 max-w-full">
+<div class="flex items-center gap-4">
+<span class="text-xl font-bold font-headline text-[#005d8f] dark:text-[#0077b5]">Physics-Informed Machine Learning for Predicting the Electrochemical Performance of Zn/Co-Doped BiFeO3 Electrodes
+</span>
+</div>
+<div class="flex items-center gap-6">
+<!-- Settings and profile removed -->
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-grow flex flex-col items-center justify-start pt-12 px-6 pb-32">
+<div class="w-full max-w-3xl">
+<!-- Progress Section -->
+<div class="mb-12 w-full">
+<div class="flex justify-between items-end mb-3">
+<h1 class="font-headline text-3xl font-extrabold tracking-tight text-[#181c1e]">Zinc Substitution</h1>
+<span class="font-label text-sm font-semibold text-on-surface-variant">Step 5 of 8</span>
+</div>
+<div class="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div id="progress-bar" class="h-full bg-gradient-to-r from-primary to-primary-container transition-all duration-1000 ease-out" style="width: 0%;"></div>
+<script>setTimeout(() => { document.getElementById('progress-bar').style.width = '62.5%'; }, 50);</script>
+</div>
+</div>
+<!-- Configuration Card -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_12px_32px_-4px_rgba(24,28,30,0.06)] p-10 mb-8 border border-outline-variant/10">
+<div class="flex items-start justify-between gap-8">
+<div class="flex-1">
+<div class="flex items-center gap-3 mb-2">
+<span class="bg-primary-container/10 text-primary-container px-3 py-1 rounded text-xs font-bold tracking-widest uppercase">Chemical Property</span>
+<span class="text-on-surface-variant text-sm font-medium">Element 30</span>
+</div>
+<h2 class="font-headline text-2xl font-bold text-on-surface mb-4">Zinc (ZN)</h2>
+<p class="text-on-surface-variant leading-relaxed max-w-lg">
+                            Zinc substitution provides essential structural integrity to the perovskite lattice, allowing the electrode to withstand high temperatures during synthesis and operation without material degradation or phase separation.
+                        </p>
+</div>
+<!-- Professional Boolean Toggle -->
+<div class="flex flex-col items-center pt-2">
+<label class="relative inline-flex items-center cursor-pointer group">
+<input id="zn-toggle" name="Zinc (ZN) toggle" checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-16 h-9 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-primary-gradient"></div>
+</label>
+<span class="mt-3 font-label text-xs font-bold tracking-tighter text-primary uppercase">Active</span>
+</div>
+</div>
+<!-- Technical Details Bento Sub-grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-12">
+<div class="p-6 bg-surface-container-low rounded-lg border border-outline-variant/5">
+<div class="flex items-center gap-3 mb-3 text-primary">
+<span class="material-symbols-outlined text-lg" data-icon="science">science</span>
+<span class="font-label text-sm font-bold">Ionic Radius</span>
+</div>
+<div class="text-2xl font-manrope font-bold text-on-surface">0.74 Å</div>
+<div class="text-xs text-on-surface-variant mt-1">Zinc coordination size (6-fold)</div>
+</div>
+<div class="p-6 bg-surface-container-low rounded-lg border border-outline-variant/5">
+<div class="flex items-center gap-3 mb-3 text-tertiary">
+<span class="material-symbols-outlined text-lg" data-icon="monitor_weight">monitor_weight</span>
+<span class="font-label text-sm font-bold">Relative Density</span>
+</div>
+<div class="text-2xl font-manrope font-bold text-on-surface">~96.4 %</div>
+<div class="text-xs text-on-surface-variant mt-1">Theoretical sintering compactness</div>
+</div>
+</div>
+</div>
+<!-- Supplemental Image Card -->
+<div class="relative h-48 w-full rounded-xl overflow-hidden mb-8 group">
+<img class="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-80 transition-all duration-700" data-alt="Close-up of crystalline metallic structure with sharp geometric edges and cold blue laboratory lighting highlights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0fc7jbRc0ymjz5NUIfSbSQa52tZ8vqyKDLBuUhew2AVB8LA-XylpM3EQW3cVLjbZZJtk3bPbuaa6kA6eA9BP-Z6AiWk5PwaWUNimVkx3-b77aBprN3wfRO7hP47BnJzx6qwNue6iy9VlhebBKqDCz7ToTGZe-5uIbWO2guRs8tBMy1TNog-gfGSSEl2Bcrb0UmVI9hlvVSPMYdmSRjQjlUa-EAg90m4zRAPnzomT9hUzR9MzI6lV6Xh24i-hMgjszKro90Z8NyPjw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent"></div>
+<div class="absolute bottom-6 left-8">
+<div class="font-headline text-lg font-bold text-on-surface">Microstructure Preview</div>
+<div class="text-sm text-on-surface-variant">Real-time rendering of ZN lattice formation</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex justify-between items-center px-12 py-4 bg-white/90 backdrop-blur-md border-t border-surface-container-highest">
+<button onclick="window.location.href='step4.html'" class="flex items-center gap-2 text-[#005d8f] font-inter text-sm font-semibold hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+<span>Back</span>
+</button>
+<div class="flex items-center gap-6">
+<button onclick="submitStepDataAndContinue('step6.html')" class="flex items-center gap-2 bg-[#0077b5] text-white rounded-full px-6 py-2.5 font-inter text-sm font-semibold hover:bg-[#005d8f] transition-colors shadow-sm">
+<span>Next</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</footer>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const toggleInput = document.querySelector('input[type="checkbox"]');
+        const statusText = document.querySelector('.mt-3.font-label');
+
+        toggleInput.addEventListener('change', (e) => {
+            if (e.target.checked) {
+                statusText.textContent = 'ACTIVE';
+                statusText.classList.remove('text-outline');
+                statusText.classList.add('text-primary');
+            } else {
+                statusText.textContent = 'INACTIVE';
+                statusText.classList.remove('text-primary');
+                statusText.classList.add('text-outline');
+            }
+        });
+    });
+</script>
+<script>
+    async function submitStepDataAndContinue(nextPage) {
+        // Collect all inputs on the current page
+        const inputs = document.querySelectorAll('input, select');
+        const data = {};
+        inputs.forEach(input => {
+            data[input.id || input.name] = input.type === 'checkbox' ? input.checked : input.value;
+        });
+
+        const btn = document.querySelector('button[onclick^="submitStepData"]');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<span>Saving...</span>';
+        btn.disabled = true;
+
+        try {
+            const response = await fetch('/api/save_step', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ page: window.location.pathname, data: data })
+            });
+
+            if (response.ok) {
+                window.location.href = '/' + nextPage.replace('.html', '');
+            } else {
+                throw new Error('Failed to save');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Failed to connect to the backend server.');
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
+    }
+</script>
+</body></html>
+

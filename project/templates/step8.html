@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "on-secondary-container": "#48647d",
+                "tertiary": "#854a00",
+                "inverse-primary": "#93ccff",
+                "on-secondary-fixed": "#001d32",
+                "primary-container": "#0077b5",
+                "on-tertiary-fixed": "#2d1600",
+                "surface": "#f7fafc",
+                "surface-dim": "#d7dadc",
+                "surface-container-lowest": "#ffffff",
+                "surface-tint": "#006398",
+                "secondary-fixed": "#cde5ff",
+                "primary-fixed-dim": "#93ccff",
+                "inverse-on-surface": "#eef1f3",
+                "secondary": "#45617a",
+                "inverse-surface": "#2d3133",
+                "background": "#f7fafc",
+                "on-primary-fixed-variant": "#004b74",
+                "primary-fixed": "#cde5ff",
+                "secondary-container": "#c3e0fe",
+                "on-secondary-fixed-variant": "#2d4961",
+                "error-container": "#ffdad6",
+                "on-secondary": "#ffffff",
+                "on-surface": "#181c1e",
+                "tertiary-fixed": "#ffdcc0",
+                "on-surface-variant": "#404850",
+                "on-tertiary-container": "#fff5ef",
+                "on-primary": "#ffffff",
+                "on-background": "#181c1e",
+                "surface-container": "#ebeef0",
+                "outline": "#707881",
+                "surface-bright": "#f7fafc",
+                "outline-variant": "#bfc7d1",
+                "on-error-container": "#93000a",
+                "on-primary-container": "#f3f7ff",
+                "surface-container-high": "#e5e9eb",
+                "tertiary-container": "#a85f00",
+                "on-tertiary-fixed-variant": "#6b3b00",
+                "on-error": "#ffffff",
+                "surface-container-low": "#f1f4f6",
+                "primary": "#005d8f",
+                "secondary-fixed-dim": "#adcae7",
+                "surface-container-highest": "#e0e3e5",
+                "tertiary-fixed-dim": "#ffb876",
+                "on-tertiary": "#ffffff",
+                "error": "#ba1a1a",
+                "on-primary-fixed": "#001d32",
+                "surface-variant": "#e0e3e5"
+            },
+            "fontFamily": {
+                "headline": ["Manrope"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+            }
+          }
+        }
+      }
+</script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .headline-lg { font-size: 2rem; line-height: 2.5rem; font-weight: 800; }
+      .body-md { font-size: 0.875rem; line-height: 1.25rem; }
+      .label-md { font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; }
+      .label-sm { font-size: 0.75rem; line-height: 1rem; font-weight: 500; }
+      .title-sm { font-size: 0.875rem; line-height: 1.25rem; font-weight: 600; }
+</style>
+</head>
+<body class="bg-surface text-on-surface font-body min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky bg-[#f1f4f6] dark:bg-slate-800 z-50">
+<div class="flex justify-between items-center w-full px-8 py-4 max-w-full">
+<div class="flex items-center gap-4">
+<span class="text-xl font-bold font-headline text-[#005d8f] dark:text-[#0077b5]">Physics-Informed Machine Learning for Predicting the Electrochemical Performance of Zn/Co-Doped BiFeO3 Electrodes
+</span>
+</div>
+<div class="flex items-center gap-6">
+<!-- Settings and profile removed -->
+</div>
+</div>
+</header>
+<main class="flex-grow flex flex-col items-center justify-center px-6 py-12 relative overflow-hidden">
+<!-- Abstract Background Detail -->
+<div class="absolute top-0 right-0 -mr-32 -mt-32 w-96 h-96 bg-primary-container/5 rounded-full blur-3xl"></div>
+<div class="absolute bottom-0 left-0 -ml-32 -mb-32 w-96 h-96 bg-tertiary/5 rounded-full blur-3xl"></div>
+<div class="max-w-3xl w-full">
+<!-- Progress Section -->
+<div class="mb-12 w-full">
+<div class="flex justify-between items-end mb-3">
+<h1 class="font-headline text-3xl font-extrabold tracking-tight text-[#181c1e]">Electrode Area</h1>
+<span class="font-label text-sm font-semibold text-on-surface-variant">Step 8 of 8</span>
+</div>
+<div class="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div id="progress-bar" class="h-full bg-gradient-to-r from-primary to-primary-container transition-all duration-1000 ease-out" style="width: 0%;"></div>
+<script>setTimeout(() => { document.getElementById('progress-bar').style.width = '100%'; }, 50);</script>
+</div>
+</div>
+<!-- Main Input Canvas -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+<!-- Instruction Card -->
+<div class="md:col-span-7 space-y-6">
+<div class="bg-surface-container-low p-8 rounded-xl space-y-4">
+<p class="text-on-surface-variant leading-relaxed">
+                            Enter the surface area of your electrode. This value is used to calculate the current density in A/m², which the AI model uses to predict the final curve.
+                        </p>
+<div class="relative group">
+<label class="block font-label text-sm font-semibold text-on-surface-variant mb-2 ml-1" for="electrode_area">Surface Area (cm²)</label>
+<div class="flex items-center bg-surface-container-lowest rounded-lg overflow-hidden border border-transparent group-focus-within:border-primary/20 transition-all shadow-sm">
+<div class="pl-4 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">straighten</span>
+</div>
+<input class="w-full py-4 px-4 bg-transparent border-none focus:ring-0 text-xl font-headline font-bold text-on-surface placeholder:text-outline-variant" id="electrode_area" placeholder="0.00" step="0.01" type="number" value="12.50"/>
+<div class="pr-6 text-on-surface-variant font-bold font-headline text-sm tracking-tighter opacity-50">
+                                    CM²
+                                </div>
+</div>
+<div class="mt-2 flex items-center gap-2 text-xs text-on-surface-variant/70 italic px-1">
+<span class="material-symbols-outlined text-[14px]">info</span>
+                                Typical range: 0.1 - 50.0 cm²
+                            </div>
+</div>
+</div>
+<!-- Quick Selection Chips -->
+<div class="flex flex-wrap gap-3" id="area-chips">
+<button data-value="0.5" class="area-btn px-5 py-2.5 rounded-full bg-surface-container-lowest border border-outline-variant/30 text-on-surface-variant text-sm font-medium hover:bg-surface-container-high transition-colors">Micro (0.5 cm²)</button>
+<button data-value="10.0" class="area-btn px-5 py-2.5 rounded-full bg-surface-container-lowest border border-outline-variant/30 text-on-surface-variant text-sm font-medium hover:bg-surface-container-high transition-colors">Standard (10.0 cm²)</button>
+<button data-value="12.5" class="area-btn px-5 py-2.5 rounded-full bg-surface-container-lowest border border-outline-variant/30 text-on-surface-variant text-sm font-medium hover:bg-surface-container-high transition-colors">Custom (12.5 cm²)</button>
+</div>
+</div>
+<!-- Visual Reference/Editorial Element -->
+<div class="md:col-span-5">
+<div class="relative rounded-2xl overflow-hidden aspect-[4/5] shadow-2xl">
+<img alt="Scientific apparatus" class="w-full h-full object-cover" data-alt="Extreme close up of a precision engineered metal electrode plate with a clean brushed steel texture and geometric microscopic patterns" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA72fB89qc2iGpRy7DGnjXpYsr8BwapTc6_bPcQzKjCnvdk73V3r7KB2s6KPNR8lFc1Hxd1cLNCBrZ-VY_7soZ3obkMm9twdkEjM1ThD6o1AziZEqljm5ZwW2e4aCAzhJ-WTZsNK7Z3E4veiTAEJec0Vcj3Iuq_4E_FyEGYtpH996lj9KIppajvGnTDQaOSKdrzbfHYa1MTPlotU37LSsxSFRZQ2Q3d_w3DUSyalxpPo3lTRww5FiBkigGb-UvV6d0xcgOOE5mTguvc"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/80 via-transparent to-transparent flex flex-col justify-end p-6">
+<h3 class="text-white font-headline font-bold text-lg">Area Precision</h3>
+<p class="text-white/80 text-xs leading-snug mt-1">Accurate area measurement ensures more reliable results from the AI prediction.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex justify-between items-center px-12 py-4 bg-white/90 backdrop-blur-md border-t border-surface-container-highest">
+<button onclick="window.location.href='step7.html'" class="flex items-center gap-2 text-[#005d8f] font-inter text-sm font-semibold hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+<span>Back</span>
+</button>
+<div class="flex items-center gap-6">
+<button onclick="submitStepDataAndContinue('results.html')" class="flex items-center gap-2 bg-[#0077b5] text-white rounded-full px-6 py-2.5 font-inter text-sm font-semibold hover:bg-[#005d8f] transition-colors shadow-sm">
+<span>Next</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</footer>
+<!-- Content Spacer for fixed nav -->
+<div class="h-24"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const input = document.getElementById('electrode_area');
+    const buttons = document.querySelectorAll('.area-btn');
+
+    function setActiveButton(value) {
+        buttons.forEach(btn => {
+            const btnValue = parseFloat(btn.getAttribute('data-value'));
+            if (btnValue === value) {
+                btn.className = "area-btn px-5 py-2.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-semibold";
+            } else {
+                btn.className = "area-btn px-5 py-2.5 rounded-full bg-surface-container-lowest border border-outline-variant/30 text-on-surface-variant text-sm font-medium hover:bg-surface-container-high transition-colors";
+            }
+        });
+    }
+
+    // Set initial state
+    let initialValue = parseFloat(input.value);
+    setActiveButton(initialValue);
+
+    buttons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const value = parseFloat(btn.getAttribute('data-value'));
+            input.value = value.toFixed(2);
+            setActiveButton(value);
+        });
+    });
+
+    input.addEventListener('input', (e) => {
+        const value = parseFloat(e.target.value);
+        if (!isNaN(value)) {
+            setActiveButton(value);
+        } else {
+            setActiveButton(null); // No match
+        }
+    });
+});
+</script>
+<script>
+    async function submitStepDataAndContinue(nextPage) {
+        // Collect all inputs on the current page
+        const inputs = document.querySelectorAll('input, select');
+        const data = {};
+        inputs.forEach(input => {
+            data[input.id || input.name] = input.type === 'checkbox' ? input.checked : input.value;
+        });
+
+        const btn = document.querySelector('button[onclick^="submitStepData"]');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<span>Saving...</span>';
+        btn.disabled = true;
+
+        try {
+            const response = await fetch('/api/save_step', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ page: window.location.pathname, data: data })
+            });
+
+            if (response.ok) {
+                window.location.href = '/' + nextPage.replace('.html', '');
+            } else {
+                throw new Error('Failed to save');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Failed to connect to the backend server.');
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
+    }
+</script>
+</body></html>
+
